@@ -28,11 +28,13 @@ export class ExpressHTTPServerAdapter implements HTTPServer {
       async (req: Request, res: Response) => {
         const context = { userId: (req as any).userId };
         const params = req.params;
+        const query = req.query;
         const body = req.body;
         try {
           const { response, statusCode } = await callback(
             params,
             body,
+            query,
             context,
           );
           res.status(statusCode || 200).json(response);

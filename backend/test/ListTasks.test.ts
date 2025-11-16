@@ -13,11 +13,11 @@ test('should list all tasks', async () => {
   const task1 = await createTask.execute({ title: 'First Task', userId });
   const task2 = await createTask.execute({ title: 'Second Task', userId });
 
-  const tasks = await listTasks.execute({ userId });
+  const output = await listTasks.execute({ userId, page: 1, limit: 10 });
 
-  expect(tasks.length).toBe(2);
+  expect(output.tasks.length).toBe(2);
 
-  expect(tasks).toEqual(
+  expect(output.tasks).toEqual(
     expect.arrayContaining([
       {
         id: task1.id,

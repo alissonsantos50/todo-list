@@ -8,8 +8,15 @@ export default class TaskRepositoryMemory implements TaskRepository {
     this.tasks.push(task);
   }
 
-  async findAll(userId: string): Promise<Task[] | []> {
-    return this.tasks.filter((item) => item.userId === userId);
+  async findAll(
+    userId: string,
+    page: number,
+    limit: number,
+  ): Promise<[Task[], number]> {
+    const tasks = this.tasks.filter((item) => item.userId === userId);
+    const start = (page - 1) * limit;
+    const end = start + limit;
+    return [tasks.slice(start, end), tasks.length];
   }
 
   async findById(id: string, userId: string): Promise<Task | null> {

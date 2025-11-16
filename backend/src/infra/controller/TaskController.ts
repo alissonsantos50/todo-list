@@ -23,6 +23,7 @@ export default class TaskController {
       async (
         params: unknown,
         body: { title: string },
+        query: unknown,
         context: { userId: string },
       ) => {
         const input = body;
@@ -38,8 +39,19 @@ export default class TaskController {
     this.httpServer.route(
       'get',
       '/tasks',
-      async (params: unknown, body: unknown, context: { userId: string }) => {
-        const output = await this.listTasks.execute({ userId: context.userId });
+      async (
+        params: unknown,
+        body: unknown,
+        query: { page?: string; limit?: string },
+        context: { userId: string },
+      ) => {
+        const page = (query.page && parseInt(query.page, 10)) || 1;
+        const limit = (query.limit && parseInt(query.limit, 10)) || 10;
+        const output = await this.listTasks.execute({
+          userId: context.userId,
+          page,
+          limit,
+        });
         return { response: output, statusCode: 200 };
       },
       ensureAuthenticated,
@@ -51,6 +63,7 @@ export default class TaskController {
       async (
         params: { taskId: string },
         body: { title: string; finished: boolean },
+        query: unknown,
         context: { userId: string },
       ) => {
         const output = await this.editTask.execute({
@@ -70,6 +83,7 @@ export default class TaskController {
       async (
         params: { taskId: string },
         body: unknown,
+        query: unknown,
         context: { userId: string },
       ) => {
         const output = await this.removeTask.execute({

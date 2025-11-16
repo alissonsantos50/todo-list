@@ -15,7 +15,8 @@ test('should create and return a Task', async () => {
   expect(output.finished).toBe(false);
   expect(output.createdAt).toBeInstanceOf(Date);
 
-  const allTasks = await taskRepository.findAll(userId);
+  const [allTasks, count] = await taskRepository.findAll(userId, 1, 10);
+  expect(count).toBe(1);
   expect(allTasks.length).toBe(1);
   expect(allTasks[0].id).toBe(output.id);
   expect(allTasks[0].title).toBe('New Task');

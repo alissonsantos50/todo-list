@@ -15,9 +15,17 @@ export default class TaskRepositoryTypeORM implements TaskRepository {
     await this.taskRepository.save(model);
   }
 
-  async findAll(userId: string): Promise<Task[] | []> {
-    const models = await this.taskRepository.findBy({ user_id: userId });
-    return models.map((model) => this.parseModelToDomain(model));
+  async findAll(
+    userId: string,
+    page: number,
+    limit: number,
+  ): Promise<[Task[], number]> {
+    const [models, count] = await this.taskRepository.findAndCount({
+      where: { user_id: userId },
+      skip: (page - 1) * limit,
+      take: limit,
+    });
+    return [models.map((model) => this.parseModelToDomain(model)), count];
   }
 
   async findById(id: string, userId: string): Promise<Task | null> {
