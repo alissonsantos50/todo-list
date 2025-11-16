@@ -5,10 +5,10 @@ export default class EditTask {
 
   async execute(input: EditTaskInput): Promise<void> {
     const task = await this.taskRepository.findById(input.id, input.userId);
-    if (!task) throw new Error('Task not found');
+    if (!task) throw new Error('Tarefa não encontrada');
 
     if (
-      (!input.title && !input.finished) ||
+      (!input.title && typeof input.finished !== 'boolean') ||
       (input.title === task.title && input.finished === task.finished)
     ) {
       return;
@@ -18,7 +18,10 @@ export default class EditTask {
       task.changeTitle(input.title.trim());
     }
 
-    if (task.finished !== input.finished) {
+    if (
+      typeof input.finished === 'boolean' &&
+      task.finished !== input.finished
+    ) {
       input.finished ? task.finish() : task.unfinish();
     }
 

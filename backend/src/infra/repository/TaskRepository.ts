@@ -8,6 +8,7 @@ export default interface TaskRepository {
     userId: string,
     page: number,
     limit: number,
+    filter?: string,
   ): Promise<[Task[], number]>;
   findById(id: string, userId: string): Promise<Task | null>;
 }

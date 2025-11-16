@@ -12,11 +12,19 @@ export default class TaskRepositoryMemory implements TaskRepository {
     userId: string,
     page: number,
     limit: number,
+    filter?: string,
   ): Promise<[Task[], number]> {
-    const tasks = this.tasks.filter((item) => item.userId === userId);
+    let userTasks = this.tasks.filter((item) => item.userId === userId);
+
+    if (filter === 'pending') {
+      userTasks = userTasks.filter((task) => !task.finished);
+    } else if (filter === 'completed') {
+      userTasks = userTasks.filter((task) => task.finished);
+    }
+
     const start = (page - 1) * limit;
     const end = start + limit;
-    return [tasks.slice(start, end), tasks.length];
+    return [userTasks.slice(start, end), userTasks.length];
   }
 
   async findById(id: string, userId: string): Promise<Task | null> {

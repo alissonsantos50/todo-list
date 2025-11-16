@@ -4,6 +4,7 @@ import ListTasks from '../../application/use-case/ListTasks';
 import RemoveTask from '../../application/use-case/RemoveTask';
 import HTTPServer from '../http/HTTPServer';
 import { authMiddleware } from '../http/middleware/AuthMiddleware';
+import UserRepository from '../repository/UserRepository';
 
 export default class TaskController {
   constructor(
@@ -12,10 +13,11 @@ export default class TaskController {
     private readonly listTasks: ListTasks,
     private readonly editTask: EditTask,
     private readonly removeTask: RemoveTask,
+    private readonly userRepository: UserRepository,
   ) {}
 
   registerRoutes(): void {
-    const ensureAuthenticated = [authMiddleware];
+    const ensureAuthenticated = [authMiddleware(this.userRepository)];
 
     this.httpServer.route(
       'post',
@@ -42,15 +44,17 @@ export default class TaskController {
       async (
         params: unknown,
         body: unknown,
-        query: { page?: string; limit?: string },
+        query: { page?: string; limit?: string; filter?: string },
         context: { userId: string },
       ) => {
         const page = (query.page && parseInt(query.page, 10)) || 1;
         const limit = (query.limit && parseInt(query.limit, 10)) || 10;
+        const filter = query.filter;
         const output = await this.listTasks.execute({
           userId: context.userId,
           page,
           limit,
+          filter,
         });
         return { response: output, statusCode: 200 };
       },

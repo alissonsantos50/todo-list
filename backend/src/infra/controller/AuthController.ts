@@ -17,7 +17,7 @@ export default class AuthController {
       async (params: unknown, body: { email: string; password: string }) => {
         const input = body;
         if (!input || !input.email || !input.password) {
-          throw new Error('Email and password are required');
+          throw new Error('E-mail e senha são obrigatórios');
         }
         const output = await this.registerUser.execute({
           email: input.email,
@@ -33,7 +33,7 @@ export default class AuthController {
       async (params: unknown, body: { email: string; password: string }) => {
         const input = body;
         if (!input || !input.email || !input.password) {
-          throw new Error('Email and password are required');
+          throw new Error('E-mail e senha são obrigatórios');
         }
         const output = await this.authenticateUser.execute({
           email: input.email,

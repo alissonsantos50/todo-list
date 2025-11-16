@@ -6,7 +6,7 @@ export default class CreateTask {
 
   async execute(input: CreateTaskInput): Promise<CreateTaskOutput> {
     if (!input.title || input.title.trim() === '') {
-      throw new Error('Title is required');
+      throw new Error('Título da tarefa é obrigatório');
     }
 
     const task = Task.create(input.title.trim(), input.userId);

@@ -8,6 +8,7 @@ export default class ListTasks {
       input.userId,
       input.page,
       input.limit,
+      input.filter,
     );
 
     return {
@@ -28,6 +29,7 @@ type ListTasksInput = {
   userId: string;
   page: number;
   limit: number;
+  filter?: string;
 };
 
 type ListTasksOutput = {

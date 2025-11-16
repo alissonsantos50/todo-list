@@ -19,9 +19,18 @@ export default class TaskRepositoryTypeORM implements TaskRepository {
     userId: string,
     page: number,
     limit: number,
+    filter?: string,
   ): Promise<[Task[], number]> {
+    const whereClause: any = { user_id: userId };
+
+    if (filter === 'pending') {
+      whereClause.finished = false;
+    } else if (filter === 'completed') {
+      whereClause.finished = true;
+    }
+
     const [models, count] = await this.taskRepository.findAndCount({
-      where: { user_id: userId },
+      where: whereClause,
       skip: (page - 1) * limit,
       take: limit,
     });

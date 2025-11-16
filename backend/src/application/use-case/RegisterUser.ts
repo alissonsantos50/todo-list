@@ -10,7 +10,11 @@ export default class RegisterUser {
 
   async execute(input: RegisterUserInput): Promise<RegisterUserOutput> {
     const existingUser = await this.userRepository.findByEmail(input.email);
-    if (existingUser) throw new Error('Email already in use');
+    if (existingUser) throw new Error('E-mail já vinculado a outra conta');
+
+    if (!input.password || input.password.trim().length < 6) {
+      throw new Error('A senha deve ter no mínimo 6 caracteres');
+    }
 
     const passwordHash = await this.passwordService.hash(input.password);
     const user = User.create(input.email, passwordHash);

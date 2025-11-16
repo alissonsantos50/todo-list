@@ -15,6 +15,12 @@ export default class UserRepositoryTypeORM implements UserRepository {
     await this.userRepository.save(model);
   }
 
+  async findById(id: string): Promise<User | null> {
+    const model = await this.userRepository.findOneBy({ id });
+    if (!model) return null;
+    return this.parseModelToDomain(model);
+  }
+
   async findByEmail(email: string): Promise<User | null> {
     const model = await this.userRepository.findOneBy({ email });
     if (!model) return null;

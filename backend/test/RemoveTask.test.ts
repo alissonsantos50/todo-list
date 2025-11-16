@@ -34,5 +34,5 @@ it('should throw an error when trying to remove a non-existing task', async () =
 
   await expect(
     removeTask.execute({ id: randomUUID(), userId }),
-  ).rejects.toThrow('Task not found');
+  ).rejects.toThrow('Tarefa não encontrada');
 });

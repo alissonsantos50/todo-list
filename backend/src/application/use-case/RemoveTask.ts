@@ -5,7 +5,7 @@ export default class RemoveTask {
 
   async execute(input: RemoveTaskInput): Promise<void> {
     const task = await this.taskRepository.findById(input.id, input.userId);
-    if (!task) throw new Error('Task not found');
+    if (!task) throw new Error('Tarefa não encontrada');
     await this.taskRepository.delete(task, input.userId);
   }
 }

@@ -9,14 +9,14 @@ export default class Task {
     private readonly _createdAt: Date = new Date(),
   ) {
     if (!_id) this._id = randomUUID();
-    if (!_title) throw new Error('Title cannot be empty');
+    if (!_title) throw new Error('Título da tarefa é obrigatório');
   }
 
   static create(title: string, userId: string): Task {
     const id = crypto.randomUUID();
 
-    if (!title) throw new Error('Invalid task title');
-    if (!userId) throw new Error('User ID is required');
+    if (!title) throw new Error('Título da tarefa inválido');
+    if (!userId) throw new Error('Id do usuário é obrigatório');
 
     return new Task(id, title, false, userId, new Date());
   }
@@ -42,7 +42,7 @@ export default class Task {
   }
 
   changeTitle(newTitle: string) {
-    if (!newTitle) throw new Error('Title cannot be empty');
+    if (!newTitle) throw new Error('Título da tarefa inválido');
     this._title = newTitle;
   }
 

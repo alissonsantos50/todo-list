@@ -10,11 +10,11 @@ export default class User {
     const id = crypto.randomUUID();
 
     if (!email || !this.validateEmail(email)) {
-      throw new Error('Invalid email format');
+      throw new Error('Formato de e-mail inválido');
     }
 
     if (!passwordHash) {
-      throw new Error('Password hash is required');
+      throw new Error('Senha é obrigatória');
     }
 
     return new User(id, email, passwordHash, new Date());
