@@ -7,11 +7,7 @@
     "dev": "nodemon src/main.ts",
     "build": "tsc",
     "start": "node dist/main.js",
-    "test": "jest",
-    "typeorm": "ts-node ./node_modules/typeorm/cli.js -d ./src/infra/database/typeorm/DataSource.ts",
-    "migration:generate": "npm run typeorm -- migration:generate",
-    "migration:run": "npm run typeorm -- migration:run",
-    "migration:revert": "npm run typeorm -- migration:revert"
+    "test": "jest"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",

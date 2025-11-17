@@ -4,10 +4,8 @@ import RegisterUser from './application/use-case/RegisterUser';
 import AuthController from './infra/controller/AuthController';
 import TaskController from './infra/controller/TaskController';
 import { ExpressHTTPServerAdapter } from './infra/http/ExpressHTTPServer';
-import UserRepositoryMemory from './infra/repository/UserRepositoryMemory';
 import BcryptPasswordService from './infra/services/BcryptPasswordService';
-import TaskRepositoryMemory from './infra/repository/TaskRepositoryMemory';
-import { AppDataSource } from './infra/database/typeorm/DataSource';
+import { initializeDataSource } from './infra/database/typeorm/DataSource';
 import CreateTask from './application/use-case/CreateTask';
 import ListTasks from './application/use-case/ListTasks';
 import EditTask from './application/use-case/EditTask';
@@ -16,9 +14,7 @@ import UserRepositoryTypeORM from './infra/repository/UserRepositoryTypeORM';
 import TaskRepositoryTypeORM from './infra/repository/TaskRepositoryTypeORM';
 
 async function main() {
-  const dataSource = await AppDataSource.initialize();
-  // const userRepository = new UserRepositoryMemory();
-  // const taskRepository = new TaskRepositoryMemory();
+  const dataSource = await initializeDataSource();
   const userRepository = new UserRepositoryTypeORM(dataSource);
   const taskRepository = new TaskRepositoryTypeORM(dataSource);
   const httpServer = new ExpressHTTPServerAdapter();
@@ -39,6 +35,7 @@ async function main() {
     listTasks,
     editTask,
     removeTask,
+    userRepository,
   );
 
   const authController = new AuthController(

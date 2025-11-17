@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
-@Entity({ name: 'users', schema: 'todo_app' })
+@Entity('users')
 export class UserModel {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
