@@ -67,13 +67,6 @@ VITE_API_URL=http://localhost:3000
     docker compose up -d
     ```
 
-2.  **Execute as Migrações do Banco de Dados:**
-    No diretório `backend/`:
-    ```bash
-    npm run migration:run
-    ```
-    Isso criará as tabelas necessárias em seu banco de dados PostgreSQL.
-
 ## Executando a Aplicação
 
 ### Backend
